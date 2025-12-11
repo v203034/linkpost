@@ -6,9 +6,9 @@ body {
     flex-direction: column; /* Stack header and container vertically */
     justify-content: flex-start; /* Align content to the top */
     align-items: center;
-    min-height: 100vh;
+    min-height: 75vh;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
