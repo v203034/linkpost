@@ -14,7 +14,7 @@ body {
 
 /* --- Header Styling --- */
 .header-container {
-    margin: 40px 0 50px 0; /* Space above and below the header */
+    margin: 20px 0 20px 0; /* Space above and below the header */
     text-align: center;
     width: 100%;
     max-width: 800px;
