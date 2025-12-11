@@ -1,6 +1,6 @@
 /* Base Styles */
 body {
-    background-color: #f0f0f0; /* Soft background to mimic a wall/board */
+    background-color: #fffefc; /* Soft background to mimic a wall/board */
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column; /* Stack header and container vertically */
