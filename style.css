@@ -1,9 +1,10 @@
 /* Base Styles */
 body {
-    background-color: #fffefc; /* Light gray "board" background */
+    background-color: #fffefc; /* Soft background to mimic a wall/board */
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Stack header and container vertically */
+    justify-content: flex-start; /* Align content to the top */
     align-items: center;
     min-height: 100vh;
     margin: 0;
@@ -11,37 +12,65 @@ body {
     box-sizing: border-box;
 }
 
+/* --- Header Styling --- */
+.header-container {
+    margin: 40px 0 50px 0; /* Space above and below the header */
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+}
+.header-container h1 {
+    font-family: 'Gochi Hand', cursive; 
+    font-size: 3rem; /* Large, bold handwritten look */
+    color: #3a3a3a;
+    border-bottom: 4px dashed #6b6b6b; /* Simple, non-post-it separator */
+    padding-bottom: 10px;
+    display: inline-block; /* Makes border-bottom only as wide as the text */
+}
+
 /* Container for responsiveness */
 .container {
     display: flex;
-    flex-wrap: wrap; /* Allows notes to wrap on small screens (vertical) */
+    flex-wrap: wrap; 
     justify-content: center;
-    gap: 30px; /* Space between notes */
+    gap: 30px; 
     width: 100%;
-    max-width: 1200px; /* Max width for large screens */
+    max-width: 1200px;
 }
 
 /* Post-it Card Styling */
 .note-card {
     width: 250px;
     height: 250px;
-    perspective: 1000px; /* Establishes the 3D space for the flip */
+    perspective: 1000px; 
     cursor: pointer;
+    margin-bottom: 30px; /* Space between rows */
 }
 
-/* Post-it Colors */
-.yellow { background-color: #ffff88; } /* Classic Yellow */
-.pink { background-color: #ff9999; }  /* Pink */
-.green { background-color: #99ff99; } /* Green */
+/* --- Misalignment for the Second Row (Crucial for the staggered look) --- */
+/* Target notes that start the second row (4th, 5th, etc.) on large screens */
+.note-card:nth-child(n+4) {
+    margin-top: 40px; 
+}
+/* Adjust the initial cards slightly to give a more natural staggered look */
+.note-card:nth-child(2) { margin-top: 15px; }
+
+
+/* Post-it Colors (Added Blue and Orange) */
+.yellow { background-color: #ffff88; } 
+.pink { background-color: #ff9999; }  
+.green { background-color: #99ff99; } 
+.blue { background-color: #a4c6e0; }  /* New: Electoral Report/Substack */
+.orange { background-color: #ffac5c; } /* New: Myoos Inc. */
 
 /* Shared Styles for Front and Back */
 .front, .back {
     width: 100%;
     height: 100%;
     position: absolute;
-    backface-visibility: hidden; /* Hides the back side when viewing the front */
+    backface-visibility: hidden; 
     border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); /* Deeper shadow for contrast */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,54 +83,69 @@ body {
 /* Front Side Styling (Title) */
 .front {
     transform: rotateY(0deg);
-    /* Handwritten Font */
     font-family: 'Gochi Hand', cursive; 
     font-size: 1.5rem;
     color: #333;
     text-align: center;
 }
 
-/* Back Side Styling (Link) */
+/* Back Side Styling (Links) */
 .back {
-    transform: rotateY(180deg); /* Starts facing away */
-    background-color: #fff; /* White background for the link side */
+    transform: rotateY(180deg); 
+    background-color: #fff; 
+    /* NEW: Display links vertically with space */
+    flex-direction: column; 
+    justify-content: space-evenly;
 }
 
 .back a {
     text-decoration: none;
-    color: #0000ff; /* Link color */
+    color: #0000ff; 
     font-weight: bold;
-    font-size: 1.2rem;
-    font-family: Arial, sans-serif; /* Use a readable font for the link itself */
+    font-size: 1rem; /* Slightly smaller for multiple links */
+    font-family: Arial, sans-serif;
+    padding: 5px;
+    transition: color 0.3s;
+    text-align: center;
+}
+
+.back a:hover {
+    color: #ff00ff; /* Pink hover effect */
 }
 
 /* 3D Flip Effect on Hover */
-.note-card:hover .front {
-    transform: rotateY(180deg);
-}
-.note-card:hover .back {
-    transform: rotateY(360deg); /* 180 + 180 = 360 (faces forward) */
-}
+.note-card:hover .front { transform: rotateY(180deg); }
+.note-card:hover .back { transform: rotateY(360deg); }
 
 /* Slight random rotation for a "stuck on a board" look */
 .note-card:nth-child(1) { transform: rotate(2deg); }
 .note-card:nth-child(2) { transform: rotate(-3deg); }
 .note-card:nth-child(3) { transform: rotate(1deg); }
+.note-card:nth-child(4) { transform: rotate(-4deg); }
+.note-card:nth-child(5) { transform: rotate(3deg); }
+
 
 /* --- Mobile Responsiveness (Vertical View Optimization) --- */
 @media (max-width: 768px) {
+    .header-container h1 {
+        font-size: 2rem;
+    }
     .container {
-        flex-direction: column; /* Stacks notes vertically */
+        flex-direction: column; 
         align-items: center;
         gap: 20px;
         padding: 10px;
     }
     
     .note-card {
-        width: 80vw; /* Take up 80% of the viewport width */
+        width: 80vw; 
         max-width: 300px;
-        height: 300px;
-        /* Remove random rotation on mobile for easier tapping */
+        height: 220px; /* Adjusted height for mobile */
+        /* IMPORTANT: Remove staggered margin and rotation for a clean stack on mobile */
+        margin-top: 0 !important; 
         transform: rotate(0deg) !important; 
+    }
+    .back a {
+        font-size: 1.1rem;
     }
 }
