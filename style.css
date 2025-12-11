@@ -59,11 +59,11 @@ body {
 
 
 /* Post-it Colors (Added Blue and Orange) */
-.yellow { background-color: #ffff88; } 
-.pink { background-color: #ff9999; }  
+.yellow { background-color: #fff740; } 
+.pink { background-color: #ff7eb9; }  
 .green { background-color: #99ff99; } 
 .blue { background-color: #9966cc; }  
-.orange { background-color: #ffac5c; } 
+.orange { background-color: #ffc14a; } 
 
 /* Shared Styles for Front and Back */
 .front, .back {
