@@ -1,6 +1,6 @@
 /* Base Styles */
 body {
-    background-color: #fffefc; /* Soft background to mimic a wall/board */
+    background-color: #f0f0f0; /* Soft background to mimic a wall/board */
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column; /* Stack header and container vertically */
@@ -20,12 +20,14 @@ body {
     max-width: 800px;
 }
 .header-container h1 {
-    font-family: 'Gochi Hand', cursive; 
-    font-size: 3rem; /* Large, bold handwritten look */
+    /* *** MODIFIED FONT STYLE HERE *** */
+    font-family: Arial, sans-serif; /* Use a clean, professional font */
+    font-size: 3rem; 
+    font-weight: 700; /* Made bold for emphasis */
     color: #3a3a3a;
     border-bottom: 4px dashed #6b6b6b; /* Simple, non-post-it separator */
     padding-bottom: 10px;
-    display: inline-block; /* Makes border-bottom only as wide as the text */
+    display: inline-block; 
 }
 
 /* Container for responsiveness */
@@ -44,7 +46,7 @@ body {
     height: 250px;
     perspective: 1000px; 
     cursor: pointer;
-    margin-bottom: 30px; /* Space between rows */
+    margin-bottom: 30px; 
 }
 
 /* --- Misalignment for the Second Row (Crucial for the staggered look) --- */
@@ -58,10 +60,10 @@ body {
 
 /* Post-it Colors (Added Blue and Orange) */
 .yellow { background-color: #ffff88; } 
-.pink { background-color: #ff8da1; }  
+.pink { background-color: #ff9999; }  
 .green { background-color: #99ff99; } 
-.blue { background-color: #a4c6e0; }  /* New: Electoral Report/Substack */
-.orange { background-color: #ffac5c; } /* New: Myoos Inc. */
+.blue { background-color: #a4c6e0; }  
+.orange { background-color: #ffac5c; } 
 
 /* Shared Styles for Front and Back */
 .front, .back {
@@ -70,7 +72,7 @@ body {
     position: absolute;
     backface-visibility: hidden; 
     border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); /* Deeper shadow for contrast */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,6 +85,7 @@ body {
 /* Front Side Styling (Title) */
 .front {
     transform: rotateY(0deg);
+    /* *** HANDWRITTEN FONT REMAINS HERE *** */
     font-family: 'Gochi Hand', cursive; 
     font-size: 1.5rem;
     color: #333;
@@ -102,7 +105,7 @@ body {
     text-decoration: none;
     color: #0000ff; 
     font-weight: bold;
-    font-size: 1rem; /* Slightly smaller for multiple links */
+    font-size: 1rem; 
     font-family: Arial, sans-serif;
     padding: 5px;
     transition: color 0.3s;
@@ -110,7 +113,7 @@ body {
 }
 
 .back a:hover {
-    color: #ff00ff; /* Pink hover effect */
+    color: #ff00ff; 
 }
 
 /* 3D Flip Effect on Hover */
@@ -140,7 +143,7 @@ body {
     .note-card {
         width: 80vw; 
         max-width: 300px;
-        height: 220px; /* Adjusted height for mobile */
+        height: 220px; 
         /* IMPORTANT: Remove staggered margin and rotation for a clean stack on mobile */
         margin-top: 0 !important; 
         transform: rotate(0deg) !important; 
