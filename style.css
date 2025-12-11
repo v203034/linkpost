@@ -1,0 +1,107 @@
+/* Base Styles */
+body {
+    background-color: #f0f0f0; /* Light gray "board" background */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Container for responsiveness */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows notes to wrap on small screens (vertical) */
+    justify-content: center;
+    gap: 30px; /* Space between notes */
+    width: 100%;
+    max-width: 1200px; /* Max width for large screens */
+}
+
+/* Post-it Card Styling */
+.note-card {
+    width: 250px;
+    height: 250px;
+    perspective: 1000px; /* Establishes the 3D space for the flip */
+    cursor: pointer;
+}
+
+/* Post-it Colors */
+.yellow { background-color: #ffff88; } /* Classic Yellow */
+.pink { background-color: #ff9999; }  /* Pink */
+.green { background-color: #99ff99; } /* Green */
+
+/* Shared Styles for Front and Back */
+.front, .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden; /* Hides the back side when viewing the front */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    transition: transform 0.6s;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Front Side Styling (Title) */
+.front {
+    transform: rotateY(0deg);
+    /* Handwritten Font */
+    font-family: 'Gochi Hand', cursive; 
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Back Side Styling (Link) */
+.back {
+    transform: rotateY(180deg); /* Starts facing away */
+    background-color: #fff; /* White background for the link side */
+}
+
+.back a {
+    text-decoration: none;
+    color: #0000ff; /* Link color */
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif; /* Use a readable font for the link itself */
+}
+
+/* 3D Flip Effect on Hover */
+.note-card:hover .front {
+    transform: rotateY(180deg);
+}
+.note-card:hover .back {
+    transform: rotateY(360deg); /* 180 + 180 = 360 (faces forward) */
+}
+
+/* Slight random rotation for a "stuck on a board" look */
+.note-card:nth-child(1) { transform: rotate(2deg); }
+.note-card:nth-child(2) { transform: rotate(-3deg); }
+.note-card:nth-child(3) { transform: rotate(1deg); }
+
+/* --- Mobile Responsiveness (Vertical View Optimization) --- */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stacks notes vertically */
+        align-items: center;
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .note-card {
+        width: 80vw; /* Take up 80% of the viewport width */
+        max-width: 300px;
+        height: 300px;
+        /* Remove random rotation on mobile for easier tapping */
+        transform: rotate(0deg) !important; 
+    }
+}
