@@ -46,13 +46,13 @@ body {
     height: 250px;
     perspective: 1000px; 
     cursor: pointer;
-    margin-bottom: 30px; 
+    margin-bottom: 20px; 
 }
 
 /* --- Misalignment for the Second Row (Crucial for the staggered look) --- */
 /* Target notes that start the second row (4th, 5th, etc.) on large screens */
 .note-card:nth-child(n+4) {
-    margin-top: 40px; 
+    margin-top: 20px; 
 }
 /* Adjust the initial cards slightly to give a more natural staggered look */
 .note-card:nth-child(2) { margin-top: 15px; }
