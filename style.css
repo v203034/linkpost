@@ -42,8 +42,11 @@ body {
 
 /* Post-it Card Styling */
 .note-card {
+    /* Define the width as before */
     width: 250px;
-    height: 250px;
+    /* FIX 1: Use aspect-ratio to ensure the height is always equal to the width (1:1 ratio) */
+    aspect-ratio: 1 / 1; 
+    /* The explicit height: 250px; is not strictly needed but harmless now */
     perspective: 1000px; 
     cursor: pointer;
     margin-bottom: 20px; 
@@ -141,13 +144,25 @@ body {
     }
     
     .note-card {
+        /* FIX 2: Set the dynamic mobile width */
         width: 80vw; 
         max-width: 300px;
-        height: 220px; 
-        /* IMPORTANT: Remove staggered margin and rotation for a clean stack on mobile */
+        /* The aspect-ratio: 1/1 handles the height automatically */
+        
+        /* FIX 3: Reset the staggered margin and rotation for a clean stack on mobile */
+        /* Use !important to override the specific :nth-child and :nth-child(2) rules */
         margin-top: 0 !important; 
         transform: rotate(0deg) !important; 
     }
+    
+    /* FIX 4: Explicitly reset the staggered styles for specific cards */
+    .note-card:nth-child(n+4) {
+        margin-top: 0 !important;
+    }
+    .note-card:nth-child(2) { 
+        margin-top: 0 !important; 
+    }
+    
     .back a {
         font-size: 1.1rem;
     }
