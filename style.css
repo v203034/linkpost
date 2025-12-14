@@ -1,4 +1,3 @@
-/* Base Styles */
 body {
     background-color: #fffefc;
     font-family: Arial, sans-serif;
@@ -81,15 +80,13 @@ body {
 
 /* Front Side Styling (The peeling note) */
 .front {
-    /* CRITICAL FIX 1: Apply the color here, not on .note-card */
-    
-    /* Set the transformation origin to the bottom for the peel-up effect */
-    transform-origin: bottom center; 
+    /* CRITICAL FIX: Set the transformation origin to the TOP for the peel-up effect */
+    transform-origin: top center; 
     
     /* Transition ONLY the transform property and the box-shadow */
     transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
     
-    /* CRITICAL FIX 2: Ensure the front is always on top */
+    /* CRITICAL FIX: Ensure the front is always on top */
     z-index: 10; 
     
     /* Initial state */
@@ -107,7 +104,7 @@ body {
     /* The back side should remain flat and visible when the front peels */
     transform: none; 
     
-    /* CRITICAL FIX 3: Ensure the back is layered below the front */
+    /* CRITICAL FIX: Ensure the back is layered below the front */
     z-index: 5; 
     
     /* The background of the back is now the card's general background color (white) */
@@ -134,14 +131,63 @@ body {
     color: #ff00ff; 
 }
 
+/* --- The Pre-Peel Corner and Shadow on the Front --- */
+
+/* 1. White bottom-right corner for pre-peeled look */
+.front::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* Create a small white triangle in the corner */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 15px 15px; /* Creates a triangle */
+    border-color: transparent transparent #ffffff transparent;
+    z-index: 11; /* Ensure it's above the front content */
+    transition: border-width 0.6s ease-in-out;
+}
+
+/* 2. Shadow to hide the text on the front near the corner */
+.front::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* A subtle gradient shadow */
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(circle at 100% 100%, transparent 20px, rgba(0,0,0,0.1) 40px);
+    z-index: 10;
+}
+
+
 /* --- THE PEEL EFFECT ON HOVER --- */
 
 .note-card:hover .front {
-    /* Rotate the front element along the X-axis (peel up) */
-    transform: rotateX(-70deg); 
+    /* CRITICAL CHANGE: Rotate POSITIVELY along the X-axis (peel up from the bottom) */
+    transform: rotateX(70deg); 
     
-    /* Add a strong shadow at the bottom to simulate thickness/depth */
-    box-shadow: 0 40px 10px rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.2);
+    /* NEW SHADOW: Add a strong shadow at the TOP to simulate thickness/depth */
+    box-shadow: 0 -40px 10px rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide the white corner when peeled */
+.note-card:hover .front::after {
+    border-width: 0 0 0 0; /* Collapse the white corner */
+}
+
+/* Make the text-hiding shadow much darker when peeled */
+.note-card:hover .front::before {
+    /* Shadow moves to the peeled edge (now at the bottom of the card) */
+    /* This effect makes the writing look obscured by the sticky note's underside shadow */
+    background: radial-gradient(circle at 50% 100%, transparent 5px, rgba(0, 0, 0, 0.6) 200px);
+    width: 100%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
 }
 
 /* --- Random Rotation (Keep as is) --- */
