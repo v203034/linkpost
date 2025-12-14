@@ -106,9 +106,10 @@ body {
     width: 100%;
     height: 100%; 
     
-    font-family: Arial, sans-serif; 
-    font-size: 2.5rem; 
-    font-weight: 800;
+    /* CRITICAL FIX: Reverting to handwritten font and size/weight */
+    font-family: 'Gochi Hand', cursive; 
+    font-size: 1.5rem; /* Adjusted for handwritten appearance */
+    font-weight: 400; /* Normal weight for handwritten style */
     color: #333;
     text-align: center;
     
@@ -125,7 +126,7 @@ body {
     border: none;
     background-color: transparent !important; 
     
-    /* ADDED: Inner shadow for flat state */
+    /* Inner shadow for flat state */
     box-shadow: 0 -140px 20px -140px rgba(0, 0, 0, 0.3) inset;
     -webkit-box-shadow: 0 -140px 20px -140px rgba(0, 0, 0, 0.3) inset; 
 }
@@ -234,7 +235,7 @@ body {
     transform: translateY(0); 
     transition: opacity 0.1s ease-out, transform 0.6s ease-in-out;
 
-    /* ADDED: Inner shadow for peeled state */
+    /* Inner shadow for peeled state */
     box-shadow: 0 -60px 10px -60px rgba(0, 0, 0, 0.1) inset;
     -webkit-box-shadow: 0 -60px 10px -60px rgba(0, 0, 0, 0.1) inset; 
 }
