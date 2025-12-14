@@ -44,7 +44,6 @@ body {
     margin-bottom: 20px; 
     position: relative; 
     background-color: #ffffff; 
-    /* REMOVED: perspective: 1000px; (Not needed for this technique) */
 }
 
 /* --- Misalignment (Keep as is) --- */
@@ -63,13 +62,32 @@ body {
     overflow: hidden; 
     z-index: 10;
     
-    /* Replaces the transform transition */
     transition: all 0.6s ease-in-out; 
     
-    /* Apply base styling here */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
     border-radius: 3px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------------- */
+/* --- NEW TOP-LEFT TRIANGLE & SHADOW --- */
+/* ------------------------------------- */
+
+.front-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    /* Create the light-colored triangle (using the yellow color as an example) */
+    border-width: 20px 20px 0 0; 
+    border-color: #fff8a6 transparent transparent transparent; /* light yellow */
+    z-index: 15;
+    
+    /* Subtle, non-triangular shadow on the triangle element */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); 
 }
 
 /* The element that acts as the white background card (Back Layer) */
@@ -79,7 +97,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Keep existing styling for content alignment */
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -88,7 +105,6 @@ body {
     background-color: #ffffff; 
     z-index: 5; 
     
-    /* Remove redundant styling from shared block */
     box-shadow: none; 
     border: none;
     padding: 15px;
@@ -97,12 +113,12 @@ body {
 
 /* The inner colored note content (Front) */
 .front {
-    /* CRITICAL: Must be absolute inside the layer */
+    /* CRITICAL: Changed alignment to allow the text to remain visible when peeled */
     position: absolute; 
-    top: 0;
+    bottom: 0; /* Align content to the bottom of the front-layer */
     left: 0;
     width: 100%;
-    height: 100%;
+    /* height: 100%; REMOVED: Since content is bottom-aligned, full height is no longer needed */
 
     /* Text Styles */
     font-family: 'Gochi Hand', cursive; 
@@ -110,18 +126,17 @@ body {
     color: #333;
     text-align: center;
     
-    /* Transitions for content fade and slide */
-    transition: all 0.6s ease-in-out, opacity 0.2s ease-in-out; 
-    opacity: 1; /* Initial state */
+    /* Transitions for slide (no opacity transition needed now) */
+    transition: transform 0.6s ease-in-out; 
+    opacity: 1; 
     
     /* Keep content centering */
     display: flex; 
     justify-content: center;
     align-items: center;
-    padding: 15px; /* Keep padding */
+    padding: 15px;
     box-sizing: border-box;
     
-    /* Remove redundant styling from shared block */
     box-shadow: none; 
     border: none;
 }
@@ -148,7 +163,7 @@ body {
     color: #ff00ff; 
 }
 
-/* --- The Pre-Peel Corner (Applied to the layer) --- */
+/* --- The Pre-Peel Corner (Bottom-Right) --- */
 .front-layer::after {
     content: '';
     position: absolute;
@@ -183,12 +198,11 @@ body {
 }
 
 .note-card:hover .front {
-    /* CRITICAL 3: Shift the content up by 70% (100% - 30% visible height) */
+    /* CRITICAL 3: Content needs to move down 70% to stick to the top boundary of the shrinking area. */
     transform: translateY(-70%); 
     
-    /* CRITICAL 4: Hide the text instantly as the paper rolls up */
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
+    /* REMOVED: opacity: 0; */
+    transition: transform 0.6s ease-in-out;
 }
 
 /* Hide the white corner when peeled */
