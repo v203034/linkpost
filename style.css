@@ -1,10 +1,10 @@
-/* Base Styles */
+/* Base Styles (Keep as is) */
 body {
-    background-color: #fffefc; /* Soft background to mimic a wall/board */
+    background-color: #fffefc;
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column; /* Stack header and container vertically */
-    justify-content: flex-start; /* Align content to the top */
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     min-height: 75vh;
     margin: 0;
@@ -12,25 +12,24 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Header Styling --- */
+/* --- Header Styling (Keep as is) --- */
 .header-container {
-    margin: 20px 0 20px 0; /* Space above and below the header */
+    margin: 20px 0 20px 0;
     text-align: center;
     width: 100%;
     max-width: 800px;
 }
 .header-container h1 {
-    /* *** MODIFIED FONT STYLE HERE *** */
-    font-family: Arial, sans-serif; /* Use a clean, professional font */
+    font-family: Arial, sans-serif;
     font-size: 3rem; 
-    font-weight: 700; /* Made bold for emphasis */
+    font-weight: 700;
     color: #3a3a3a;
-    border-bottom: 4px dashed #6b6b6b; /* Simple, non-post-it separator */
+    border-bottom: 4px dashed #6b6b6b;
     padding-bottom: 10px;
     display: inline-block; 
 }
 
-/* Container for responsiveness */
+/* Container for responsiveness (Keep as is) */
 .container {
     display: flex;
     flex-wrap: wrap; 
@@ -42,26 +41,19 @@ body {
 
 /* Post-it Card Styling */
 .note-card {
-    /* Define the width as before */
     width: 250px;
-    /* FIX 1: Use aspect-ratio to ensure the height is always equal to the width (1:1 ratio) */
     aspect-ratio: 1 / 1; 
-    /* The explicit height: 250px; is not strictly needed but harmless now */
-    perspective: 1000px; 
     cursor: pointer;
     margin-bottom: 20px; 
+    position: relative; /* CRITICAL: Allows absolute positioning of front/back */
+    /* REMOVED: perspective: 1000px; */
 }
 
-/* --- Misalignment for the Second Row (Crucial for the staggered look) --- */
-/* Target notes that start the second row (4th, 5th, etc.) on large screens */
-.note-card:nth-child(n+4) {
-    margin-top: 20px; 
-}
-/* Adjust the initial cards slightly to give a more natural staggered look */
+/* --- Misalignment (Keep as is) --- */
+.note-card:nth-child(n+4) { margin-top: 20px; }
 .note-card:nth-child(2) { margin-top: 15px; }
 
-
-/* Post-it Colors (Added Blue and Orange) */
+/* Post-it Colors (Keep as is) */
 .yellow { background-color: #fff740; } 
 .pink { background-color: #ff7eb9; }  
 .green { background-color: #99ff99; } 
@@ -73,22 +65,34 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
-    backface-visibility: hidden; 
+    /* REMOVED: backface-visibility: hidden; */
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
-    transition: transform 0.6s;
     padding: 15px;
     box-sizing: border-box;
 }
 
+/* --- NEW: PEEL-SPECIFIC STYLES --- */
+
 /* Front Side Styling (Title) */
 .front {
-    transform: rotateY(0deg);
-    /* *** HANDWRITTEN FONT REMAINS HERE *** */
+    /* Set the transformation origin to the bottom for the peel-up effect */
+    transform-origin: bottom center; 
+    
+    /* Transition ONLY the transform property (the peel) and the box-shadow */
+    transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
+    
+    /* Make sure the front is on top initially */
+    z-index: 2; 
+    
+    /* Initial state */
+    transform: rotateX(0deg);
+
+    /* Keep your existing style */
     font-family: 'Gochi Hand', cursive; 
     font-size: 1.5rem;
     color: #333;
@@ -97,13 +101,21 @@ body {
 
 /* Back Side Styling (Links) */
 .back {
-    transform: rotateY(180deg); 
-    background-color: #fff; 
-    /* NEW: Display links vertically with space */
+    /* The back side should remain flat */
+    transform: none; 
+    
+    /* Set the back to be slightly under the front initially */
+    z-index: 1; 
+    
+    /* The color of the back will be the visible "paper" after peeling */
+    background-color: #ffffff; /* Use white or a light color */
+    
+    /* NEW: Display links vertically with space (Keep as is) */
     flex-direction: column; 
     justify-content: space-evenly;
 }
 
+/* Back Side Links (Keep as is) */
 .back a {
     text-decoration: none;
     color: #0000ff; 
@@ -119,11 +131,17 @@ body {
     color: #ff00ff; 
 }
 
-/* 3D Flip Effect on Hover */
-.note-card:hover .front { transform: rotateY(180deg); }
-.note-card:hover .back { transform: rotateY(360deg); }
+/* --- THE PEEL EFFECT ON HOVER --- */
 
-/* Slight random rotation for a "stuck on a board" look */
+.note-card:hover .front {
+    /* Rotate the front element along the X-axis (peel up) */
+    transform: rotateX(70deg); /* 70deg gives a nice, noticeable curl */
+    
+    /* Add a strong shadow at the bottom to simulate thickness/depth */
+    box-shadow: 0 40px 10px rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Random Rotation (Keep as is) --- */
 .note-card:nth-child(1) { transform: rotate(2deg); }
 .note-card:nth-child(2) { transform: rotate(-3deg); }
 .note-card:nth-child(3) { transform: rotate(1deg); }
@@ -131,39 +149,22 @@ body {
 .note-card:nth-child(5) { transform: rotate(3deg); }
 
 
-/* --- Mobile Responsiveness (Vertical View Optimization) --- */
+/* --- Mobile Responsiveness (Keep as is) --- */
 @media (max-width: 768px) {
-    .header-container h1 {
-        font-size: 2rem;
-    }
+    .header-container h1 { font-size: 2rem; }
     .container {
         flex-direction: column; 
         align-items: center;
         gap: 20px;
         padding: 10px;
     }
-    
     .note-card {
-        /* FIX 2: Set the dynamic mobile width */
         width: 80vw; 
         max-width: 300px;
-        /* The aspect-ratio: 1/1 handles the height automatically */
-        
-        /* FIX 3: Reset the staggered margin and rotation for a clean stack on mobile */
-        /* Use !important to override the specific :nth-child and :nth-child(2) rules */
         margin-top: 0 !important; 
         transform: rotate(0deg) !important; 
     }
-    
-    /* FIX 4: Explicitly reset the staggered styles for specific cards */
-    .note-card:nth-child(n+4) {
-        margin-top: 0 !important;
-    }
-    .note-card:nth-child(2) { 
-        margin-top: 0 !important; 
-    }
-    
-    .back a {
-        font-size: 1.1rem;
-    }
+    .note-card:nth-child(n+4) { margin-top: 0 !important; }
+    .note-card:nth-child(2) { margin-top: 0 !important; }
+    .back a { font-size: 1.1rem; }
 }
