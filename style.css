@@ -11,14 +11,13 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Header Styling (Keep as is) --- */
+/* --- Header & Container Styling (Keep as is) --- */
 .header-container {
     margin: 20px 0 20px 0;
     text-align: center;
     width: 100%;
     max-width: 800px;
 }
-
 .header-container h1 {
     font-family: Arial, sans-serif;
     font-size: 3rem; 
@@ -28,8 +27,6 @@ body {
     padding-bottom: 10px;
     display: inline-block; 
 }
-
-/* Container for responsiveness (Keep as is) */
 .container {
     display: flex;
     flex-wrap: wrap; 
@@ -47,54 +44,65 @@ body {
     margin-bottom: 20px; 
     position: relative; 
     background-color: #ffffff; 
-    
-    /* CRITICAL: Establish 3D perspective */
-    perspective: 1000px; 
+    /* REMOVED: perspective: 1000px; (Not needed for this technique) */
 }
 
 /* --- Misalignment (Keep as is) --- */
 .note-card:nth-child(n+4) { margin-top: 20px; }
 .note-card:nth-child(2) { margin-top: 15px; }
 
-/* Post-it Colors (These colors MUST be applied to the .front now) */
-.yellow .front { background-color: #fff740; } 
-.pink .front { background-color: #ff7eb9; }  
-.green .front { background-color: #99ff99; } 
-.blue .front { background-color: #9966cc; }  
-.orange .front { background-color: #ffc14a; } 
+/* --- CORE PEEL STRUCTURE ELEMENTS --- */
 
-/* Shared Styles for Front and Back */
-.front, .back {
-    width: 100%;
-    height: 100%;
+/* The element that controls the height-based animation and overflow */
+.front-layer {
     position: absolute;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Full size initially */
+    overflow: hidden; 
+    z-index: 10;
+    
+    /* Replaces the transform transition */
+    transition: all 0.6s ease-in-out; 
+    
+    /* Apply base styling here */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 3px;
-    padding: 15px;
-    box-sizing: border-box;
-    backface-visibility: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* --- NEW: PEEL-SPECIFIC STYLES --- */
+/* The element that acts as the white background card (Back Layer) */
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Keep existing styling for content alignment */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column; 
+    
+    background-color: #ffffff; 
+    z-index: 5; 
+    
+    /* Remove redundant styling from shared block */
+    box-shadow: none; 
+    border: none;
+    padding: 15px;
+    box-sizing: border-box;
+}
 
-/* Front Side Styling (The peeling note) */
+/* The inner colored note content (Front) */
 .front {
-    /* CRITICAL CHANGE: Use transform-origin: top center for the bottom-up peel */
-    transform-origin: top center; 
-    
-    transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
-    
-    /* Ensure the front is always on top */
-    z-index: 10; 
-    
-    /* Initial state */
-    transform: rotateX(0deg);
-    
-    transform-style: preserve-3d;
+    /* CRITICAL: Must be absolute inside the layer */
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
     /* Text Styles */
     font-family: 'Gochi Hand', cursive; 
@@ -102,18 +110,30 @@ body {
     color: #333;
     text-align: center;
     
-    /* Ensure text is hidden underneath the fold when hovered, this must be a subtle effect */
-    transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out, filter 0.6s;
+    /* Transitions for content fade and slide */
+    transition: all 0.6s ease-in-out, opacity 0.2s ease-in-out; 
+    opacity: 1; /* Initial state */
+    
+    /* Keep content centering */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    padding: 15px; /* Keep padding */
+    box-sizing: border-box;
+    
+    /* Remove redundant styling from shared block */
+    box-shadow: none; 
+    border: none;
 }
 
-.back {
-    transform: none; 
-    z-index: 5; 
-    background-color: #ffffff; 
-    flex-direction: column; 
-    justify-content: space-evenly;
-}
+/* Post-it Colors (Applied to the .front element inside the layer) */
+.yellow .front { background-color: #fff740; } 
+.pink .front { background-color: #ff7eb9; }  
+.green .front { background-color: #99ff99; } 
+.blue .front { background-color: #9966cc; }  
+.orange .front { background-color: #ffc14a; } 
 
+/* Back Side Links (Keep as is) */
 .back a {
     text-decoration: none;
     color: #0000ff; 
@@ -124,13 +144,12 @@ body {
     transition: color 0.3s;
     text-align: center;
 }
-
 .back a:hover {
     color: #ff00ff; 
 }
 
-/* --- The Pre-Peel Corner (Keep as is) --- */
-.front::after {
+/* --- The Pre-Peel Corner (Applied to the layer) --- */
+.front-layer::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -138,40 +157,42 @@ body {
     width: 0;
     height: 0;
     border-style: solid;
-    /* Aesthetic Corner Size */
     border-width: 0 0 20px 20px; 
     border-color: transparent transparent #ffffff transparent;
-    z-index: 11;
+    z-index: 15;
     transition: border-width 0.6s ease-in-out;
 }
 
-/* --- Text Hiding Shadow (REMOVED: The old before element) --- */
-/* We will now use a filter to darken the text as it rolls under */
-/* Or, we apply the dark shadow to the *back* element where the text is revealed */
+/* ------------------------------------- */
+/* --- THE PEEL EFFECT ON HOVER --- */
+/* ------------------------------------- */
 
-
-/* --- THE PEEL EFFECT ON HOVER (Corrected Paper Roll Up) --- */
+.note-card:hover .front-layer {
+    /* CRITICAL 1: Shrink the layer height from the bottom up */
+    height: 30%; 
+    
+    /* CRITICAL 2: Add the curved shadow to simulate the paper roll and depth */
+    box-shadow: 
+        /* Main shadow cast by the lifted paper (The soft curl shadow) */
+        0 10px 15px 5px rgba(0, 0, 0, 0.4), 
+        /* Shadow/thickness along the visible peeled edge (inset) */
+        0 4px 8px -4px rgba(0, 0, 0, 0.5) inset;
+    
+    /* Optional: Slightly lift the entire layer for depth */
+    transform: translateY(-5px); 
+}
 
 .note-card:hover .front {
-    /* CRITICAL FIX 1: Increased Z translation to pull the paper *away* from the back card. 
-       This prevents the "crushed" or "lid" effect and keeps it elevated. 
-       Y translation is reduced to prevent jumping. */
-    transform: rotateX(85deg) translateZ(50px); 
+    /* CRITICAL 3: Shift the content up by 70% (100% - 30% visible height) */
+    transform: translateY(-70%); 
     
-    /* CRITICAL FIX 2: Refined Shadow for Paper Roll Look (casts shadow onto the back card) */
-    box-shadow: 
-        /* Main shadow cast by the lifted paper */
-        0 15px 30px rgba(0, 0, 0, 0.4),
-        /* Shadow for the main card on the background */
-        4px 4px 10px rgba(0, 0, 0, 0.2); 
-    
-    /* New: Darken the text on the front side as it rolls under the sticky part */
-    /* This simulates the writing being obscured by the rolled-up paper */
-    filter: brightness(0.5); 
+    /* CRITICAL 4: Hide the text instantly as the paper rolls up */
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }
 
 /* Hide the white corner when peeled */
-.note-card:hover .front::after {
+.note-card:hover .front-layer::after {
     border-width: 0 0 0 0; 
 }
 
