@@ -138,7 +138,7 @@ body {
 
 .note-card:hover .front {
     /* Rotate the front element along the X-axis (peel up) */
-    transform: rotateX(70deg); 
+    transform: rotateX(-70deg); 
     
     /* Add a strong shadow at the bottom to simulate thickness/depth */
     box-shadow: 0 40px 10px rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.2);
@@ -151,8 +151,6 @@ body {
 .note-card:nth-child(4) { transform: rotate(-4deg); }
 .note-card:nth-child(5) { transform: rotate(3deg); }
 
-
-/* --- Mobile Responsiveness (Keep as is) --- */
 @media (max-width: 768px) {
     .header-container h1 { font-size: 2rem; }
     .container {
