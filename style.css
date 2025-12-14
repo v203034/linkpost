@@ -47,7 +47,7 @@ body {
     position: relative; 
     background-color: #ffffff; 
     
-    /* CRITICAL CHANGE 1: Establish a 3D perspective on the card itself */
+    /* CRITICAL: Establish 3D perspective */
     perspective: 1000px; 
 }
 
@@ -76,7 +76,6 @@ body {
     border-radius: 3px;
     padding: 15px;
     box-sizing: border-box;
-    /* Ensure the back face is visible when peeled */
     backface-visibility: hidden;
 }
 
@@ -84,8 +83,8 @@ body {
 
 /* Front Side Styling (The peeling note) */
 .front {
-    /* Set the transformation origin to the TOP for the peel-up effect */
-    transform-origin: top center; 
+    /* Adjusted origin slightly higher for a better roll effect */
+    transform-origin: top 5% center; 
     
     /* Transition ONLY the transform property and the box-shadow */
     transition: transform 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
@@ -96,10 +95,9 @@ body {
     /* Initial state */
     transform: rotateX(0deg);
     
-    /* Ensure the back side is visible when the front peels */
     transform-style: preserve-3d;
 
-    /* Keep your existing style */
+    /* Text Styles */
     font-family: 'Gochi Hand', cursive; 
     font-size: 1.5rem;
     color: #333;
@@ -108,16 +106,9 @@ body {
 
 /* Back Side Styling (The content revealed underneath) */
 .back {
-    /* The back side should remain flat and visible when the front peels */
     transform: none; 
-    
-    /* Ensure the back is layered below the front */
     z-index: 5; 
-    
-    /* The background of the back is now the card's general background color (white) */
     background-color: #ffffff; 
-    
-    /* Display links vertically with space (Keep as is) */
     flex-direction: column; 
     justify-content: space-evenly;
 }
@@ -149,14 +140,14 @@ body {
     width: 0;
     height: 0;
     border-style: solid;
-    /* Increase size for a more aesthetic peel */
+    /* Increased size */
     border-width: 0 0 20px 20px; 
     border-color: transparent transparent #ffffff transparent;
     z-index: 11;
     transition: border-width 0.6s ease-in-out;
 }
 
-/* 2. REMOVED the subtle corner shadow (`.front::before`) as requested. */
+/* 2. Removed the subtle corner shadow (`.front::before`) */
 .front::before {
     content: none; 
 }
@@ -165,22 +156,40 @@ body {
 /* --- THE PEEL EFFECT ON HOVER (Paper Roll Up) --- */
 
 .note-card:hover .front {
-    /* Increased rotation and added Z translation for a softer, 'rolling' feel */
-    transform: rotateX(80deg) translateZ(10px); 
+    /* 1. Higher rotation for roll, slight lift (translateY) for peel-off feel, and slight Z translation for depth */
+    transform: rotateX(85deg) translateY(-20px) translateZ(15px); 
     
-    /* NEW SHADOW: This shadow is positioned to simulate the darkness and thickness of the
-       paper's underside, effectively hiding the text underneath the curl. */
+    /* 2. Refined Shadow for Paper Roll Look and text hiding */
     box-shadow: 
-        /* Strong, wide shadow cast over the text area */
-        0 0 50px rgba(0, 0, 0, 0.5), 
-        /* Shadow for the main card on the table */
+        /* Subtle shadow cast by the peeled edge onto the flat card */
+        0 2px 10px 5px rgba(0, 0, 0, 0.3), 
+        /* Shadow for the main card on the background (Kept small) */
         4px 4px 10px rgba(0, 0, 0, 0.2); 
+    
+    /* 3. CRITICAL: Hide the text content under a deep shadow when peeling */
+    /* This uses the ::before element strategically to apply a covering shadow on hover */
+}
+
+/* New/Re-purposed Shadow to hide text *under* the peeled paper */
+.front:hover::before {
+    content: ''; 
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient from near-transparent at the top to very dark where the peel ends */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.8) 90%);
+    z-index: 15; /* Must be above the content, below the peel line */
+    opacity: 1;
+    transition: opacity 0.6s ease-in-out;
 }
 
 /* Hide the white corner when peeled */
 .note-card:hover .front::after {
     border-width: 0 0 0 0; 
 }
+
 
 /* --- Random Rotation (Keep as is) --- */
 .note-card:nth-child(1) { transform: rotate(2deg); }
