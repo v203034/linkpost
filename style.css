@@ -70,25 +70,10 @@ body {
 }
 
 /* ------------------------------------- */
-/* --- NEW TOP-LEFT TRIANGLE & SHADOW --- */
+/* --- REMOVED TOP-LEFT TRIANGLE (.front-layer::before) --- */
+/* The block for .front-layer::before has been entirely removed */
 /* ------------------------------------- */
 
-.front-layer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    /* Create the light-colored triangle (using the yellow color as an example) */
-    border-width: 20px 20px 0 0; 
-    border-color: #fff8a6 transparent transparent transparent; /* light yellow */
-    z-index: 15;
-    
-    /* Subtle, non-triangular shadow on the triangle element */
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); 
-}
 
 /* The element that acts as the white background card (Back Layer) */
 .back {
@@ -97,40 +82,41 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     flex-direction: column; 
+    align-items: center;
     
     background-color: #ffffff; 
     z-index: 5; 
     
     box-shadow: none; 
     border: none;
-    padding: 15px;
     box-sizing: border-box;
+    
+    /* CRITICAL FIX: Ensure links start below the rolled-up 30% section */
+    padding: 10px 15px;
+    padding-top: 35%; /* Start content below the peeled area (30% + margin) */
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 /* The inner colored note content (Front) */
 .front {
-    /* CRITICAL: Changed alignment to allow the text to remain visible when peeled */
     position: absolute; 
-    bottom: 0; /* Align content to the bottom of the front-layer */
+    top: 0; /* Content sticks to the top boundary */
     left: 0;
     width: 100%;
-    /* height: 100%; REMOVED: Since content is bottom-aligned, full height is no longer needed */
-
-    /* Text Styles */
+    height: 100%;
+    
     font-family: 'Gochi Hand', cursive; 
     font-size: 1.5rem;
     color: #333;
     text-align: center;
     
-    /* Transitions for slide (no opacity transition needed now) */
     transition: transform 0.6s ease-in-out; 
     opacity: 1; 
     
-    /* Keep content centering */
     display: flex; 
     justify-content: center;
     align-items: center;
@@ -139,14 +125,16 @@ body {
     
     box-shadow: none; 
     border: none;
+    /* FIX: Color is applied to .front-layer, not here */
+    background-color: transparent !important; 
 }
 
-/* Post-it Colors (Applied to the .front element inside the layer) */
-.yellow .front { background-color: #fff740; } 
-.pink .front { background-color: #ff7eb9; }  
-.green .front { background-color: #99ff99; } 
-.blue .front { background-color: #9966cc; }  
-.orange .front { background-color: #ffc14a; } 
+/* Post-it Colors (Applied to the .front-layer element) */
+.yellow .front-layer { background-color: #fff740; } 
+.pink .front-layer { background-color: #ff7eb9; }  
+.green .front-layer { background-color: #99ff99; } 
+.blue .front-layer { background-color: #9966cc; }  
+.orange .front-layer { background-color: #ffc14a; } 
 
 /* Back Side Links (Keep as is) */
 .back a {
@@ -163,7 +151,9 @@ body {
     color: #ff00ff; 
 }
 
-/* --- The Pre-Peel Corner (Bottom-Right) --- */
+/* ------------------------------------- */
+/* --- The Pre-Peel Corner (Bottom-Right ONLY) --- */
+/* ------------------------------------- */
 .front-layer::after {
     content: '';
     position: absolute;
@@ -172,7 +162,9 @@ body {
     width: 0;
     height: 0;
     border-style: solid;
+    /* Corner size: 20px */
     border-width: 0 0 20px 20px; 
+    /* The white corner is applied *over* the colored layer */
     border-color: transparent transparent #ffffff transparent;
     z-index: 15;
     transition: border-width 0.6s ease-in-out;
@@ -183,29 +175,24 @@ body {
 /* ------------------------------------- */
 
 .note-card:hover .front-layer {
-    /* CRITICAL 1: Shrink the layer height from the bottom up */
+    /* CRITICAL 1: Shrink the layer height from the bottom up (30% visible) */
     height: 30%; 
     
     /* CRITICAL 2: Add the curved shadow to simulate the paper roll and depth */
     box-shadow: 
-        /* Main shadow cast by the lifted paper (The soft curl shadow) */
         0 10px 15px 5px rgba(0, 0, 0, 0.4), 
-        /* Shadow/thickness along the visible peeled edge (inset) */
         0 4px 8px -4px rgba(0, 0, 0, 0.5) inset;
     
-    /* Optional: Slightly lift the entire layer for depth */
     transform: translateY(-5px); 
 }
 
 .note-card:hover .front {
-    /* CRITICAL 3: Content needs to move down 70% to stick to the top boundary of the shrinking area. */
-    transform: translateY(-70%); 
-    
-    /* REMOVED: opacity: 0; */
+    /* Content stays fixed to the top of the shrinking area. */
+    transform: translateY(0); 
     transition: transform 0.6s ease-in-out;
 }
 
-/* Hide the white corner when peeled */
+/* Hide the white corner when peeled (Disappears when hover state is active) */
 .note-card:hover .front-layer::after {
     border-width: 0 0 0 0; 
 }
