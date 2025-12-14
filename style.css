@@ -39,7 +39,7 @@ body {
 /* Post-it Card Styling */
 .note-card {
     width: 250px;
-    height: 250px; /* ADDED/REINFORCED: Ensures uniform square size */
+    height: 250px; 
     aspect-ratio: 1 / 1; 
     cursor: pointer;
     margin-bottom: 20px; 
@@ -59,7 +59,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Full size initially */
+    height: 100%; 
     overflow: hidden; 
     z-index: 10;
     
@@ -93,10 +93,8 @@ body {
     border: none;
     box-sizing: border-box;
     
-    /* Ensure links start below the rolled-up 30% section */
-    padding: 10px 15px;
-    padding-top: 35%; /* Start content below the peeled area (30% + margin) */
-    justify-content: flex-start;
+    padding: 15px; 
+    justify-content: center; 
     gap: 10px;
 }
 
@@ -106,10 +104,11 @@ body {
     top: 0; 
     left: 0;
     width: 100%;
-    height: 100%; /* CRITICAL: Ensure this is 100% to fill the layer */
+    height: 100%; 
     
-    font-family: 'Gochi Hand', cursive; 
-    font-size: 1.5rem;
+    font-family: Arial, sans-serif; 
+    font-size: 2.5rem; 
+    font-weight: 800;
     color: #333;
     text-align: center;
     
@@ -128,11 +127,52 @@ body {
 }
 
 /* Post-it Colors (Applied to the .front-layer element) */
-.yellow .front-layer { background-color: #fff740; } 
-.pink .front-layer { background-color: #ff7eb9; }  
-.green .front-layer { background-color: #99ff99; } 
-.blue .front-layer { background-color: #9966cc; }  
-.orange .front-layer { background-color: #ffc14a; } 
+/* --- CRITICAL FIX: Applying custom gradients to ALL colors --- */
+
+/* Yellow Note (Original Gradient) */
+.yellow .front-layer { 
+    background-color: #fff740; 
+    background-image: 
+        -webkit-linear-gradient(top, rgba(251,236,63,.0) 75%, #f7bb37 95%),
+        -moz-linear-gradient(top, rgba(251,236,63,.0) 75%, #f7bb37 95%),
+        linear-gradient(to bottom, rgba(251,236,63,.0) 75%, #f7bb37 95%);
+} 
+
+/* Pink Note */
+.pink .front-layer { 
+    background-color: #ff7eb9; 
+    background-image: 
+        -webkit-linear-gradient(top, rgba(255,126,185,.0) 75%, #e04092 95%),
+        -moz-linear-gradient(top, rgba(255,126,185,.0) 75%, #e04092 95%),
+        linear-gradient(to bottom, rgba(255,126,185,.0) 75%, #e04092 95%);
+}  
+
+/* Green Note */
+.green .front-layer { 
+    background-color: #99ff99; 
+    background-image: 
+        -webkit-linear-gradient(top, rgba(153,255,153,.0) 75%, #50c850 95%),
+        -moz-linear-gradient(top, rgba(153,255,153,.0) 75%, #50c850 95%),
+        linear-gradient(to bottom, rgba(153,255,153,.0) 75%, #50c850 95%);
+} 
+
+/* Blue Note */
+.blue .front-layer { 
+    background-color: #9966cc; 
+    background-image: 
+        -webkit-linear-gradient(top, rgba(153,102,204,.0) 75%, #7a3eaf 95%),
+        -moz-linear-gradient(top, rgba(153,102,204,.0) 75%, #7a3eaf 95%),
+        linear-gradient(to bottom, rgba(153,102,204,.0) 75%, #7a3eaf 95%);
+}  
+
+/* Orange Note */
+.orange .front-layer { 
+    background-color: #ffc14a; 
+    background-image: 
+        -webkit-linear-gradient(top, rgba(255,193,74,.0) 75%, #e68a00 95%),
+        -moz-linear-gradient(top, rgba(255,193,74,.0) 75%, #e68a00 95%),
+        linear-gradient(to bottom, rgba(255,193,74,.0) 75%, #e68a00 95%);
+}  
 
 /* Back Side Links (Keep as is) */
 .back a {
@@ -171,10 +211,10 @@ body {
 /* ------------------------------------- */
 
 .note-card:hover .front-layer {
-    /* CRITICAL 1: Shrink the layer height from the bottom up (30% visible) */
+    /* Shrink the layer height from the bottom up (30% visible) */
     height: 30%; 
     
-    /* CRITICAL 2: Add the curved shadow to simulate the paper roll and depth */
+    /* Add the curved shadow to simulate the paper roll and depth */
     box-shadow: 
         0 10px 15px 5px rgba(0, 0, 0, 0.4), 
         0 4px 8px -4px rgba(0, 0, 0, 0.5) inset;
@@ -183,7 +223,7 @@ body {
 }
 
 .note-card:hover .front {
-    /* Make the writing disappear */
+    /* Writing disappears */
     opacity: 0; 
     
     /* Content stays fixed to the top of the shrinking area. */
