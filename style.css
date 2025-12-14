@@ -45,7 +45,6 @@ body {
     cursor: pointer;
     margin-bottom: 20px; 
     position: relative; 
-    /* NEW: This will be the color of the revealed "backing" */
     background-color: #ffffff; 
     
     /* CRITICAL CHANGE 1: Establish a 3D perspective on the card itself */
@@ -77,6 +76,8 @@ body {
     border-radius: 3px;
     padding: 15px;
     box-sizing: border-box;
+    /* Ensure the back face is visible when peeled */
+    backface-visibility: hidden;
 }
 
 /* --- NEW: PEEL-SPECIFIC STYLES --- */
@@ -137,7 +138,7 @@ body {
     color: #ff00ff; 
 }
 
-/* --- The Pre-Peel Corner and Shadow on the Front --- */
+/* --- The Pre-Peel Corner --- */
 
 /* 1. White bottom-right corner for pre-peeled look */
 .front::after {
@@ -148,44 +149,37 @@ body {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 0 15px 15px;
+    /* Increase size for a more aesthetic peel */
+    border-width: 0 0 20px 20px; 
     border-color: transparent transparent #ffffff transparent;
     z-index: 11;
     transition: border-width 0.6s ease-in-out;
 }
 
-/* 2. Subtle corner shadow before peel */
+/* 2. REMOVED the subtle corner shadow (`.front::before`) as requested. */
 .front::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    background: radial-gradient(circle at 100% 100%, transparent 20px, rgba(0,0,0,0.1) 40px);
-    z-index: 10;
-    transition: opacity 0.6s ease-in-out;
+    content: none; 
 }
 
 
-/* --- THE PEEL EFFECT ON HOVER --- */
+/* --- THE PEEL EFFECT ON HOVER (Paper Roll Up) --- */
 
 .note-card:hover .front {
-    /* Rotate POSITIVELY along the X-axis (peel up from the bottom) */
-    transform: rotateX(70deg); 
+    /* Increased rotation and added Z translation for a softer, 'rolling' feel */
+    transform: rotateX(80deg) translateZ(10px); 
     
-    /* Add a strong shadow at the TOP to simulate thickness/depth */
-    box-shadow: 0 -40px 10px rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.2);
+    /* NEW SHADOW: This shadow is positioned to simulate the darkness and thickness of the
+       paper's underside, effectively hiding the text underneath the curl. */
+    box-shadow: 
+        /* Strong, wide shadow cast over the text area */
+        0 0 50px rgba(0, 0, 0, 0.5), 
+        /* Shadow for the main card on the table */
+        4px 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 /* Hide the white corner when peeled */
 .note-card:hover .front::after {
     border-width: 0 0 0 0; 
-}
-
-/* Fade out the subtle corner shadow when peeled for full text visibility */
-.note-card:hover .front::before {
-    opacity: 0;
 }
 
 /* --- Random Rotation (Keep as is) --- */
