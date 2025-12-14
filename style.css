@@ -50,9 +50,6 @@ body {
 .note-card:nth-child(n+4) { margin-top: 20px; }
 .note-card:nth-child(2) { margin-top: 15px; }
 
-/* --- CORE PEEL STRUCTURE ELEMENTS --- */
-
-/* The element that controls the height-based animation and overflow */
 .front-layer {
     position: absolute;
     top: 0;
@@ -67,16 +64,10 @@ body {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); 
     border-radius: 3px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2),
+    0 0 1px 0 rgba(0, 0, 0, 0.15) inset;
 }
 
-/* ------------------------------------- */
-/* --- REMOVED TOP-LEFT TRIANGLE (.front-layer::before) --- */
-/* The block for .front-layer::before has been entirely removed */
-/* ------------------------------------- */
-
-
-/* The element that acts as the white background card (Back Layer) */
-.back {
     position: absolute;
     top: 0;
     left: 0;
@@ -101,10 +92,9 @@ body {
     gap: 10px;
 }
 
-/* The inner colored note content (Front) */
 .front {
     position: absolute; 
-    top: 0; /* Content sticks to the top boundary */
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -128,15 +118,12 @@ body {
     /* FIX: Color is applied to .front-layer, not here */
     background-color: transparent !important; 
 }
-
-/* Post-it Colors (Applied to the .front-layer element) */
 .yellow .front-layer { background-color: #fff740; } 
 .pink .front-layer { background-color: #ff7eb9; }  
 .green .front-layer { background-color: #99ff99; } 
 .blue .front-layer { background-color: #9966cc; }  
 .orange .front-layer { background-color: #ffc14a; } 
 
-/* Back Side Links (Keep as is) */
 .back a {
     text-decoration: none;
     color: #0000ff; 
@@ -151,9 +138,6 @@ body {
     color: #ff00ff; 
 }
 
-/* ------------------------------------- */
-/* --- The Pre-Peel Corner (Bottom-Right ONLY) --- */
-/* ------------------------------------- */
 .front-layer::after {
     content: '';
     position: absolute;
@@ -170,9 +154,6 @@ body {
     transition: border-width 0.6s ease-in-out;
 }
 
-/* ------------------------------------- */
-/* --- THE PEEL EFFECT ON HOVER --- */
-/* ------------------------------------- */
 
 .note-card:hover .front-layer {
     /* CRITICAL 1: Shrink the layer height from the bottom up (30% visible) */
@@ -187,17 +168,16 @@ body {
 }
 
 .note-card:hover .front {
-    /* Content stays fixed to the top of the shrinking area. */
     transform: translateY(0); 
     transition: transform 0.6s ease-in-out;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out; 
 }
 
-/* Hide the white corner when peeled (Disappears when hover state is active) */
 .note-card:hover .front-layer::after {
     border-width: 0 0 0 0; 
 }
 
-/* --- Random Rotation (Keep as is) --- */
 .note-card:nth-child(1) { transform: rotate(2deg); }
 .note-card:nth-child(2) { transform: rotate(-3deg); }
 .note-card:nth-child(3) { transform: rotate(1deg); }
