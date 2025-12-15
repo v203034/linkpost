@@ -193,23 +193,6 @@ body {
 }
 
 /* ------------------------------------- */
-/* --- The Pre-Peel Corner (Bottom-Right ONLY) --- */
-/* ------------------------------------- */
-.front-layer::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 20px 20px; 
-    border-color: transparent transparent #ffffff transparent;
-    z-index: 15;
-    transition: border-width 0.6s ease-in-out;
-}
-
-/* ------------------------------------- */
 /* --- THE PEEL EFFECT ON HOVER --- */
 /* ------------------------------------- */
 
@@ -227,14 +210,12 @@ body {
 .note-card:hover .front {
     /* Writing disappears */
     opacity: 0; 
-    
-    /* Content stays fixed to the top of the shrinking area. */
     transform: translateY(0); 
     transition: opacity 0.1s ease-out, transform 0.6s ease-in-out;
 
-    /* Inner shadow for peeled state */
-    box-shadow: 0 -60px 10px -60px rgba(0, 0, 0, 0.1) inset;
-    -webkit-box-shadow: 0 -60px 10px -60px rgba(0, 0, 0, 0.1) inset; 
+    /* Shadow appears in the middle of the card */
+    box-shadow: inset 0 -125px 50px -80px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: inset 0 -125px 50px -80px rgba(0, 0, 0, 0.15);
 }
 
 /* Hide the white corner when peeled (Disappears when hover state is active) */
