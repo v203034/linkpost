@@ -5,9 +5,10 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-height: 75vh;
+    min-height: 100vh;
     margin: 0;
     padding: 10px;
+    padding-bottom: 40px;
     box-sizing: border-box;
 }
 
@@ -40,7 +41,7 @@ body {
     height: 250px; 
     aspect-ratio: 1 / 1; 
     cursor: pointer;
-    margin-bottom: 20px; 
+    margin-bottom: 10px; 
     position: relative; 
     background-color: #ffffff; 
 }
@@ -211,12 +212,17 @@ body {
 .note-card:nth-child(6) { transform: rotate(-2deg); }
 
 @media (max-width: 768px) {
+    body {
+        min-height: auto;
+        padding-bottom: 20px;
+    }
     .header-container h1 { font-size: 2rem; }
     .container {
         flex-direction: column; 
         align-items: center;
         gap: 20px;
         padding: 10px;
+        padding-bottom: 0;
     }
     .note-card {
         width: 80vw; 
@@ -224,9 +230,11 @@ body {
         height: auto; 
         aspect-ratio: 1/1; 
         margin-top: 0 !important; 
+        margin-bottom: 10px !important;
         transform: rotate(0deg) !important; 
     }
     .note-card:nth-child(n+4) { margin-top: 0 !important; }
     .note-card:nth-child(2) { margin-top: 0 !important; }
+    .note-card:last-child { margin-bottom: 0 !important; }
     .back a { font-size: 1.1rem; }
 }
